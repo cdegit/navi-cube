@@ -22,6 +22,9 @@ public class plane : MonoBehaviour {
 	private float maxSpeed = 5;
 	
 	public Camera cam;
+
+	public enum Direction {left, right, forward, back};
+	public Direction direction = Direction.left;
 	
 	// Use this for initialization
 	void Start () {
@@ -77,6 +80,17 @@ public class plane : MonoBehaviour {
 					return;
 				}
 
+				// stop from going in past initPos
+				if (direction == Direction.left) {
+					if (curPosition.x > initPos.x) {
+						return;
+					}
+				} else {
+					if (curPosition.x < initPos.x) {
+						return;
+					}
+				}
+
 				// set displacement
 				if (initPos.x >= curPosition.x) {
 					displaceX = -Vector3.Distance(new Vector3(curPosition.x, 0, 0), new Vector3(initPos.x, 0, 0));
@@ -99,6 +113,17 @@ public class plane : MonoBehaviour {
 				// if we've reached the limit, stop there
 				if (Vector3.Distance(new Vector3(curPosition.z, 0, 0), new Vector3(initPos.z, 0, 0)) > maxDisplace + 10) {
 					return;
+				}
+
+				// stop from going in past initPos	
+				if (direction == Direction.back) {
+					if (curPosition.z > initPos.z) {
+						return;
+					}
+				} else {
+					if (curPosition.z < initPos.z) {
+						return;
+					}
 				}
 
 				// set displacement
